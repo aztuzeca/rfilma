@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    rfilma (0.1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,4 +67,5 @@ PLATFORMS
 DEPENDENCIES
   mechanize
   mongoid
+  rfilma!
   thread

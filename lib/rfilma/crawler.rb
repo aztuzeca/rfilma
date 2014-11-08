@@ -2,14 +2,11 @@ require "mechanize"
 require "set"
 require "thread/pool"
 
-
-
 class Crawler
 
 	def initialize
 		@a = Mechanize.new{|op|
-			op.user_agent_alias = "Windows Mozilla"
-			op.set_proxy("localhost",8888)
+			op.user_agent_alias = "Windows Mozilla"			
 		}
 	end
 
