@@ -1,0 +1,6 @@
+production:
+  sessions:
+    default:
+      database: filmadb
+      hosts:
+        - localhost:27017
