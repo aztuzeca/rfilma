@@ -1,19 +1,20 @@
 require "mechanize"
 require "set"
 require "thread/pool"
-require_relative "pelicula"
+
 
 
 class Crawler
 
 	def initialize
 		@a = Mechanize.new{|op|
-			op.user_agent_alias = "Windows Mozilla"			
+			op.user_agent_alias = "Windows Mozilla"
+			op.set_proxy("localhost",8888)
 		}
 	end
 
 
-	def get_pelicula(id)
+	def obtener_pelicula(id)
 		data = {}
 		page = @a.get("http://www.filmaffinity.com/es/film#{id}.html").body
 		doc = Nokogiri::HTML(page)
@@ -59,41 +60,14 @@ class Crawler
 		data
 	end
 
-	def save_pelicula(id)
-		p = get_pelicula(id)
-		m = Pelicula.new(p)
-		m.upsert
-	end
-
-	def procesar_paginas(letra)
-		pagina = 1
-		# Cualquier categoría tiene más de una página
-		r = ">>"		
+	def buscar_por_titulo(titulo)
 		indices_pelis = []
-		while r.include?(">>")
-			p = @a.get("http://www.filmaffinity.com/es/allfilms_#{letra}_#{pagina}.html").body
-			doc = Nokogiri::HTML(p)
-			r = doc.xpath('//div[@class="pager"]/a[contains(text(),">>")]').text
-			doc.xpath('//div[@class="movie-card movie-card-1"]').each{|mc|
-				indices_pelis << mc["data-movie-id"].to_i
-			}
-			pagina+=1
-		end
-		# Evitamos indices duplicados
-		Set.new(indices_pelis).to_a
-	end
-
-	def procesar_todo
-		cat = ('A'..'Z').to_a << "*" << "0-9"
-		pool = Thread.pool(5)
-		cat.each{|c|
-			pool.process{
-				ra = procesar_paginas(c)
-				ra.each{|i|
-					save_pelicula(i)
-				}
-			}
+		p = @a.get("http://www.filmaffinity.com/es/search.php?stext=#{titulo.strip.gsub(" ","+")}&stype=title").body
+		doc = Nokogiri::HTML(p)
+		doc.xpath('//div[@class="movie-card movie-card-1"]').each{|mc|
+			indices_pelis << mc["data-movie-id"].to_i
 		}
-		pool.shutdown
+		indices_pelis.map{|i| obtener_pelicula(i)}
 	end
+	
 end

@@ -1,6 +1,7 @@
 require "mongoid"
 
-Mongoid.load!("#{Dir.getwd}/lib/config/mongoid.yml",:production)
+mongoidyml = File.join(File.dirname(__FILE__),"..","config","mongoid.yml")
+Mongoid.load!(mongoidyml,:production)
 
 class Pelicula
 
@@ -23,4 +24,5 @@ class Pelicula
 	field :puntuacion, type: Float
 	field :web, type: String
 	field :portada, type: String	
+	field :_id, type: Integer, overwrite: true, default: ->{ id }
 end
