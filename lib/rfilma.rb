@@ -14,7 +14,7 @@ class RFilma
 	def buscar_por_titulo(titulo,web=false)
 		if web
 			result = @crawler.buscar_por_titulo(titulo)
-			result.each{|a| @crawlerdb.guardar_pelicula(pp a["id"])}
+			result.each{|a| @crawlerdb.guardar_pelicula(a["id"])}
 		else
 			result = @crawlerdb.buscar_por_titulo(titulo)
 		end
