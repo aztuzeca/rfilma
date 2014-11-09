@@ -39,4 +39,3 @@ Se ha implementado la busqueda por título bien a través de nuestra Base de Dat
 	
 	rfilma.buscar_por_titulo(titulo,true)   -> Busqueda directamente en la web. Si los ids de películas no se encuentra en nuestra base de datos, automáticamente se incorporarán para acelerar las futuras busquedas.
 
-Se incluye un volcado de la BD en JSON (data.bz2)

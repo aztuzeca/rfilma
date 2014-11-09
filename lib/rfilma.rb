@@ -2,13 +2,12 @@ require "rfilma/crawler"
 require "rfilma/crawlerdb"
 require "rfilma/pelicula"
 
-class RFilma
-
-	attr_accessor :crawler, :crawlerdb
+class RFilma	
 
 	def initialize
 		@crawler = Crawler.new
 		@crawlerdb = CrawlerDB.new
+		return true		
 	end
 
 	def buscar_por_titulo(titulo,web=false)
