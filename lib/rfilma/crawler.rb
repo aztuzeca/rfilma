@@ -16,7 +16,7 @@ class Crawler
 		page = @a.get("http://www.filmaffinity.com/es/film#{id}.html").body
 		doc = Nokogiri::HTML(page)
 		data["id"] = id
-		data["titulo"] = doc.xpath("//h1[@id='main-title']/a/span").inner_html
+		data["titulo"] = doc.xpath("//h1[@id='main-title']/a/span").text
 		data["puntuacion"] = doc.xpath('//div[@id="movie-rat-avg"]').text.strip.gsub(",",".").to_f
 		begin
 			data["portada"] = doc.xpath('//div[@id="movie-main-image-container"]/a')[0]["href"]

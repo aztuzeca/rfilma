@@ -11,8 +11,8 @@ class CrawlerDB < Crawler
 		Pelicula.where(id: id).as_json
 	end
 
-	def buscar_por_titulo(titulo)
-		Pelicula.where(titulo: /#{titulo}/i).as_json
+	def buscar_por_titulo(titulo,nlim=30)
+		Pelicula.where(titulo: /#{titulo}/i).limit(nlim).as_json
 	end
 
 	def guardar_pelicula(id)		
